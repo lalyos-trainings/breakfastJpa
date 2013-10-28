@@ -21,7 +21,8 @@ public class JpaTest {
         //test.persistFood();
         //test.removeFood();
         //test.listFoods();
-        //test.createFirstMenu();
+        test.createFirstMenu();
+        test.createSecondMenu();
         test.listAllMenus();
 
     }
@@ -55,8 +56,18 @@ public class JpaTest {
         Food f1 = new Food(foodName, price);
         em.persist(f1);
         menu.getFoods().add(f1);
-        menu.getFoods().add(f2);
-        em.persist(menu);
+    }
+
+    private void createSecondMenu() {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+
+        Menu menu = new Menu();
+        menu.setName("Marcello menuje");
+
+        addFoodToMenu(menu,"pizza Margherita", 1200f);
+        addFoodToMenu(menu,"grilled cat", 2100f);
+        addFoodToMenu(menu,"ostryga", 4200f);
         
         em.persist(menu);        
         transaction.commit();        
