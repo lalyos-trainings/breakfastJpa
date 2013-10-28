@@ -21,8 +21,8 @@ public class JpaTest {
         //test.persistFood();
         //test.removeFood();
         //test.listFoods();
-        test.createFirstMenu();
-        test.createSecondMenu();
+        //test.createFirstMenu();
+        //test.createSecondMenu();
         test.listAllMenus();
 
     }
@@ -30,12 +30,11 @@ public class JpaTest {
     private void listAllMenus() {
         List<Menu> resultList = em.createQuery("Select menu From Menu menu").getResultList();
         for (Menu menu : resultList) {
-            System.out.format("=== Menu: %s%n", menu.getName());
+            System.out.format("=== Rest: %s%n", menu.getRestaurant());
             for (Food food : menu.getFoods()) {
                 System.out.format("  [%3d] %-20s : %5.2f%n", food.getId(), food.getName(), food.getPrice());
             }
         }
-        
     }
 
     private void createFirstMenu() {
@@ -43,19 +42,29 @@ public class JpaTest {
         transaction.begin();
 
         Menu menu = new Menu();
-        menu.setName("karcsi menuje");
+        menu.setRestaurant(getFirstRestaurant(menu));
         
         addFoodToMenu(menu, "bablevces", 480f);
         addFoodToMenu(menu,"palacsinta", 320f);        
         
-        em.persist(menu);        
-        transaction.commit();        
+        em.persist(menu);    
+        transaction.commit();
+        em.refresh(menu);
+    }
+
+    private Restaurant getFirstRestaurant(Menu menu) {
+        Address a = new Address("Futop utca 47", "Budapest", "1056");
+        Restaurant rest = new Restaurant();
+        rest.setAddress(a);
+        rest.setName("Karcsi Bufeje");
+        rest.setMenu(menu);
+        return rest;
     }
 
     private void addFoodToMenu(Menu menu, String foodName, float price) {
         Food f1 = new Food(foodName, price);
+        f1.setMenu(menu);
         em.persist(f1);
-        menu.getFoods().add(f1);
     }
 
     private void createSecondMenu() {
@@ -63,14 +72,25 @@ public class JpaTest {
         transaction.begin();
 
         Menu menu = new Menu();
-        menu.setName("Marcello menuje");
+        menu.setRestaurant(getSecondRestaurant(menu));
 
         addFoodToMenu(menu,"pizza Margherita", 1200f);
         addFoodToMenu(menu,"grilled cat", 2100f);
         addFoodToMenu(menu,"ostryga", 4200f);
         
-        em.persist(menu);        
-        transaction.commit();        
+        em.persist(menu);
+        transaction.commit();
+        em.refresh(menu);
+
+    }
+
+    private Restaurant getSecondRestaurant(Menu menu) {
+        Address a = new Address("Kalvaria Ter 11", "Budapest", "1088");
+        Restaurant rest = new Restaurant();
+        rest.setAddress(a);
+        rest.setName("Marcello");
+        rest.setMenu(menu);
+        return rest;
     }
 
     private void removeFood() {

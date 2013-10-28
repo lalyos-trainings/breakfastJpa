@@ -1,55 +1,48 @@
 package com.eggs.jpa;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
-public class Food {
+public class Restaurant {
 
-    public Food() {
-        super();
-    }
-
-    public Food(String name, Float price) {
-        super();
-        this.name = name;
-        this.price = price;
-    }
-    
     @Id
     @GeneratedValue
     private Long id;
     
-    @ManyToOne
-    private Menu menu;
-    
     private String name;
-    private Float price;
     
-    @Override
-    public String toString() {
-        return "Food [id=" + id + ", name=" + name + ", price=" + price + "]";
-    }
+    @OneToOne(cascade=CascadeType.ALL)
+    private Address address;
     
+    @OneToOne
+    private Menu menu;
+
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
-    public Float getPrice() {
-        return price;
+
+    public Address getAddress() {
+        return address;
     }
-    public void setPrice(Float price) {
-        this.price = price;
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public Menu getMenu() {
@@ -60,4 +53,8 @@ public class Food {
         this.menu = menu;
     }
 
+    @Override
+    public String toString() {
+        return "Restaurant [name=" + name + ", address=" + address + "]";
+    }
 }
