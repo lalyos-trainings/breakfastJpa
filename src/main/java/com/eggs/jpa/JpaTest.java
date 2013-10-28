@@ -19,15 +19,35 @@ public class JpaTest {
     public static void main(String[] args) {
         JpaTest test = new JpaTest();
         //test.persistFood();
-        test.removeFood();
-        test.listFoods();
+        //test.removeFood();
+        //test.listFoods();
+        //test.createFirstMenu();
 
+    }
+
+    private void createFirstMenu() {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        
+        Food f1 = new Food("bablevces", 480f);
+        Food f2 = new Food("palacsinta", 320f);
+        
+        em.persist(f1);
+        em.persist(f2);
+        
+        Menu menu = new Menu();
+        menu.setName("karcsi menuje");
+        menu.getFoods().add(f1);
+        menu.getFoods().add(f2);
+        em.persist(menu);
+        
+        transaction.commit();        
     }
 
     private void removeFood() {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        Food food = em.find(Food.class, 201l);
+        Food food = em.find(Food.class, 151l);
         em.remove(food);
         transaction.commit();
     }
