@@ -40,19 +40,25 @@ public class JpaTest {
     private void createFirstMenu() {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        
-        Food f1 = new Food("bablevces", 480f);
-        Food f2 = new Food("palacsinta", 320f);
-        
-        em.persist(f1);
-        em.persist(f2);
-        
+
         Menu menu = new Menu();
         menu.setName("karcsi menuje");
+        
+        addFoodToMenu(menu, "bablevces", 480f);
+        addFoodToMenu(menu,"palacsinta", 320f);        
+        
+        em.persist(menu);        
+        transaction.commit();        
+    }
+
+    private void addFoodToMenu(Menu menu, String foodName, float price) {
+        Food f1 = new Food(foodName, price);
+        em.persist(f1);
         menu.getFoods().add(f1);
         menu.getFoods().add(f2);
         em.persist(menu);
         
+        em.persist(menu);        
         transaction.commit();        
     }
 
