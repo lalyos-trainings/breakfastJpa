@@ -2,6 +2,7 @@ package com.eggs.jpa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public class JpaTest {
@@ -19,8 +20,12 @@ public class JpaTest {
     }
 
     private void persistFood() {
+        
         Food food = getSampleFood();
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
         em.persist(food);
+        transaction.commit();
     }
 
     private Food getSampleFood() {
