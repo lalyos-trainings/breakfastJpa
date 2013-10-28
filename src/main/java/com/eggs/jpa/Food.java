@@ -7,6 +7,18 @@ import javax.persistence.Id;
 @Entity
 public class Food {
 
+    
+    
+    public Food() {
+        super();
+    }
+
+    public Food(String name, Float price) {
+        super();
+        this.name = name;
+        this.price = price;
+    }
+    
     @Id
     @GeneratedValue
     private Long id;
