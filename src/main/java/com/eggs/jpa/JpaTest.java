@@ -1,5 +1,7 @@
 package com.eggs.jpa;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -16,7 +18,17 @@ public class JpaTest {
 
     public static void main(String[] args) {
         JpaTest test = new JpaTest();
-        test.persistFood();
+        //test.persistFood();
+        test.listFoods();
+    }
+
+    private void listFoods() {
+        
+        List<Food> resultList = em.createQuery("SELECT f from Food f ").getResultList();
+        for (Food food : resultList) {
+            System.out.println(food);
+        }
+        
     }
 
     private void persistFood() {
