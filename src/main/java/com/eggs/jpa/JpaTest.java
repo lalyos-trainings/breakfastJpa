@@ -19,7 +19,17 @@ public class JpaTest {
     public static void main(String[] args) {
         JpaTest test = new JpaTest();
         //test.persistFood();
+        test.removeFood();
         test.listFoods();
+
+    }
+
+    private void removeFood() {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        Food food = em.find(Food.class, 201l);
+        em.remove(food);
+        transaction.commit();
     }
 
     private void listFoods() {
