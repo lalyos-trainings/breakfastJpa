@@ -22,7 +22,19 @@ public class JpaTest {
         //test.removeFood();
         //test.listFoods();
         //test.createFirstMenu();
+        test.listAllMenus();
 
+    }
+
+    private void listAllMenus() {
+        List<Menu> resultList = em.createQuery("Select menu From Menu menu").getResultList();
+        for (Menu menu : resultList) {
+            System.out.format("=== Menu: %s%n", menu.getName());
+            for (Food food : menu.getFoods()) {
+                System.out.format("  [%3d] %-20s : %5.2f%n", food.getId(), food.getName(), food.getPrice());
+            }
+        }
+        
     }
 
     private void createFirstMenu() {
